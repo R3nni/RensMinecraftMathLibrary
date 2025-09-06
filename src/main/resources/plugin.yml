@@ -1,0 +1,4 @@
+name: RensMinecraftMathLibrary
+version: '0.0.1'
+main: com.ren.rensMinecraftMathLibrary.RensMinecraftMathLibrary
+api-version: '1.19'
