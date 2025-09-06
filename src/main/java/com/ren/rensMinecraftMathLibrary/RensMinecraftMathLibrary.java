@@ -6,12 +6,11 @@ public final class RensMinecraftMathLibrary extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        getLogger().info("RensMinecraftMathLibrary " + getDescription().getVersion() + " has been enabled!");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        getLogger().info("RensMinecraftMathLibrary has been disabled!");
     }
 }
