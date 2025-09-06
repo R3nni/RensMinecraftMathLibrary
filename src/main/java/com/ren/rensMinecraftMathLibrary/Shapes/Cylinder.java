@@ -2,63 +2,58 @@ package com.ren.rensMinecraftMathLibrary.Shapes;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Sphere class from RensMinecraftMathLibrary (RMML)
- */
-
-public class Sphere {
+public class Cylinder {
     private Location center;
-    private double width;
+    private double radiusX;
+    private double radiusY;
     private double height;
-
-    public Sphere(Location center, double width, double height) {
+    public Cylinder(Location center, double radiusX, double radiusY, double height) {
         this.center = center;
-        this.width = width;
+        this.radiusX = radiusX;
+        this.radiusY = radiusY;
         this.height = height;
     }
 
     public Location getCenter() {
         return center;
     }
-
-    public double getWidth() {
-        return width;
+    public double getRadiusX() {
+        return radiusX;
     }
-
+    public double getRadiusY() {
+        return radiusY;
+    }
     public double getHeight() {
         return height;
     }
 
-    /**
-     * Returns a List of all block Locations inside the sphere
-     * @param isFilled If true, returns all blocks inside the sphere, if false, returns all blocks outside the sphere
-     */
     public List<Location> getBlocks(boolean isFilled) {
         List<Location> blocks = new ArrayList<>();
         World world = center.getWorld();
         int cx = center.getBlockX();
         int cy = center.getBlockY();
         int cz = center.getBlockZ();
-        int rx = (int) Math.ceil(width/2);
-        int ry = (int) Math.ceil(height/2);
+        int rX = (int) Math.ceil(radiusX);
+        int rY = (int) Math.ceil(radiusY);
+        int h = (int) Math.ceil(height);
 
-        for (int x = cx - rx; x <= cx + rx; x++) {
-            for (int y = cy - ry; y <= cy + ry; y++) {
-                for (int z = cz - rx; z <= cz + rx; z++) {
+        for (int x = cx - rX; x <= cx + rX; x++) {
+            for (int y = cy - rY; y <= cy + rY; y++) {
+                for (int z = cz - h; z <= cz + h; z++) {
                     double dx = x - cx;
                     double dy = y - cy;
                     double dz = z - cz;
-                    double distSq = dx*dx / (width*width) + dy*dy / (height*height) + dz*dz / (width*width);
-
+                    double distSq = dx*dx + dy*dy + dz*dz;
                     if (isFilled) {
-                        if (distSq <= 1) {
+                        if (distSq <= radiusX*radiusX && distSq <= radiusY*radiusY && Math.abs(dz) <= height) {
                             blocks.add(new Location(world, x, y, z));
                         }
                     } else {
-                        if (distSq <= 1 && distSq > 0.999999) {
+                        if (distSq <= radiusX*radiusX && distSq <= radiusY*radiusY && Math.abs(dz) <= height-1) {
                             blocks.add(new Location(world, x, y, z));
                         }
                     }
@@ -67,5 +62,4 @@ public class Sphere {
         }
         return blocks;
     }
-
 }
